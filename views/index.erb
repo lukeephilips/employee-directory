@@ -1,0 +1,10 @@
+
+<% if @divisions %>
+  <% @divisions.each do |division| %>
+  <h2><a href='/division/<%= division.id %>/new'><%= division.name %></a></h2>
+  <% end %>
+<% end %>
+<form action="/divisions/new" method="post">
+  <input type="text" name="name" placeholder="Add a division">
+  <button type="submit" name="division">Add</button>
+</form>
