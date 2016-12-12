@@ -1,9 +1,26 @@
 <h1><%= @division.name %> Employees List:</h1>
 
 <% if @division.employees %>
+<div class="panel panel-default">
   <% @division.employees.each do |employee| %>
-  <h2><a href='#'><%= employee.name %></a></h2>
-  <% end %>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-4">
+          <h4><%= employee.name %></h4>
+        </div>
+        <div class="col-md-4">
+          <a href="/employee/<%=employee.id%>"><button type="button" class="btn btn-success">update employee</button></a>
+        </div>
+        <div class="col-md-4">
+          <form action="/employees/<%= employee.id() %>" method="post">
+             <input class="form-control" type="hidden" name="division_id" id="division_id" value="<%= @division.id %>">
+             <input name="_method" type="hidden" value="delete">
+             <button type="submit" class="btn btn-danger">delete employee</button>
+           </form>
+        </div>
+      </div>
+    <% end %>
+  </div>
 <% end %>
 <form action="/division/<%= @division.id %>/new" method="post">
   <input type="text" name="name" placeholder="Add an employee">

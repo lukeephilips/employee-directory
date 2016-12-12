@@ -29,6 +29,18 @@ post('/division/:id/new') do
   erb(:division)
 end
 
+get('/employee/:id') do
+  @employee = Employee.find(params.fetch('id'))
+  erb(:employee)
+end
+
+patch('/employee/:id/edit') do
+  name = params.fetch("name")
+  employee = Employee.find(params.fetch('id'))
+  employee.update(:name => name)
+  @division = Division.find(params.fetch('division_id'))
+  erb(:division)
+end
 
 
 
@@ -36,11 +48,9 @@ end
 
 
 
-
-
-# if Division.all == []
+if Division.all == []
   departments = ['HR', 'IT', 'Sales']
   departments.each do |division|
     Division.create(:name => "#{division}")
   end
-# end
+end
