@@ -31,14 +31,20 @@ post('/division/:id/new') do
 end
 
 get('/employee/:id') do
+  @projects = Project.all
   @employee = Employee.find(params.fetch('id'))
   erb(:employee)
 end
 
 patch('/employee/:id/edit') do
-  name = params.fetch("name")
   employee = Employee.find(params.fetch('id'))
-  employee.update(:name => name)
+  name = params.fetch("name")
+  if name != ''
+    employee.update(:name => name)
+  end
+  project_id = params.fetch("projects")
+
+  employee.update(:project_id => project_id)
   @division = Division.find(params.fetch('division_id'))
   erb(:division)
 end
@@ -53,8 +59,12 @@ end
 
 
 
-
-
+if Project.all == []
+  projects = [['Convention', "2017-01-01", false], ['Web Redesign', "2017-03-21", false],['Winter Branding', "2016-12-29", false]]
+  projects.each do |project|
+    Project.create(:name => "#{project[0]}", :due_date => "#{project[1]}", :done => project[2])
+  end
+end
 
 if Division.all == []
   departments = ['HR', 'IT', 'Sales']

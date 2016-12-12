@@ -7,6 +7,9 @@
       <div class="row">
         <div class="col-md-4">
           <h4><%= employee.name %></h4>
+          <% if employee.project%>
+            <p><%= employee.project.name %></p>
+          <% end %>
         </div>
         <div class="col-md-4">
           <a href="/employee/<%=employee.id%>"><button type="button" class="btn btn-success" name="update">update employee</button></a>
