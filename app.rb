@@ -4,6 +4,7 @@ require('sinatra/reloader')
 also_reload('lib/**/*.rb')
 require('./lib/division')
 require('./lib/employee')
+require('./lib/project')
 require('pry')
 require('pg')
 
@@ -38,6 +39,13 @@ patch('/employee/:id/edit') do
   name = params.fetch("name")
   employee = Employee.find(params.fetch('id'))
   employee.update(:name => name)
+  @division = Division.find(params.fetch('division_id'))
+  erb(:division)
+end
+
+delete('/employee/:id/delete') do
+  employee = Employee.find(params.fetch('id'))
+  employee.destroy
   @division = Division.find(params.fetch('division_id'))
   erb(:division)
 end

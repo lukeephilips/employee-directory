@@ -13,4 +13,9 @@ describe Employee do
     danny = Employee.create(:name => 'Danny', :division_id => hr.id)
     expect(hr.employees).to eq([danny])
   end
+  it 'tells which project an employee is assigned to' do
+    dishes = Project.create(:name => 'dishes')
+    danny = Employee.create(:name => 'Danny', :project_id => dishes.id)
+    expect(dishes.employees).to eq([danny])
+  end
 end
