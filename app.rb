@@ -5,10 +5,26 @@ also_reload('lib/**/*.rb')
 require('./lib/division')
 require('./lib/employee')
 require('./lib/project')
-require('pry')
+require('pry-nav')
 require('pg')
 
+if Project.all == []
+  projects = [['Convention', "2017-01-01", false], ['Web Redesign', "2017-03-21", false],['Winter Branding', "2016-12-29", false]]
+  projects.each do |project|
+    Project.create(:name => "#{project[0]}", :due_date => "#{project[1]}", :done => project[2])
+  end
+end
+
+if Division.all == []
+  departments = ['HR', 'IT', 'Sales']
+  departments.each do |division|
+    Division.create(:name => "#{division}")
+  end
+end
+
+
 get '/' do
+  @projects = Project.all
   @divisions = Division.all
   erb(:index)
 end
@@ -16,6 +32,7 @@ end
 post('/divisions/new') do
   Division.create(:name => params['name'])
   @divisions = Division.all
+  @projects = Project.all
   erb(:index)
 end
 
@@ -43,7 +60,6 @@ patch('/employee/:id/edit') do
     employee.update(:name => name)
   end
   project_id = params.fetch("projects")
-
   employee.update(:project_id => project_id)
   @division = Division.find(params.fetch('division_id'))
   erb(:division)
@@ -56,19 +72,17 @@ delete('/employee/:id/delete') do
   erb(:division)
 end
 
-
-
-
-if Project.all == []
-  projects = [['Convention', "2017-01-01", false], ['Web Redesign', "2017-03-21", false],['Winter Branding', "2016-12-29", false]]
-  projects.each do |project|
-    Project.create(:name => "#{project[0]}", :due_date => "#{project[1]}", :done => project[2])
-  end
+post('/projects/new') do
+  Project.create(:name => params['name'])
+  @divisions = Division.all
+  @projects = Project.all
+  erb(:index)
 end
 
-if Division.all == []
-  departments = ['HR', 'IT', 'Sales']
-  departments.each do |division|
-    Division.create(:name => "#{division}")
-  end
+delete('/project/:id/delete') do
+  project = Project.find(params.fetch('id'))
+  project.destroy
+  @divisions = Division.all
+  @projects = Project.all
+  erb(:index)
 end

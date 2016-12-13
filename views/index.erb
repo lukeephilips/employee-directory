@@ -1,10 +1,35 @@
+<div class="row">
+  <div class="col-md-6">
+    <% if @divisions %>
+      <% @divisions.each do |division| %>
+      <h2><a href='/division/<%= division.id %>/new'><%= division.name %></a></h2>
+      <% end %>
+    <% end %>
+    <form action="/divisions/new" method="post">
+      <input type="text" name="name" placeholder="Add a division">
+      <button type="submit" name="division">Add</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <h1>Projects</h1>
+      <% @projects.each do |project|%>
 
-<% if @divisions %>
-  <% @divisions.each do |division| %>
-  <h2><a href='/division/<%= division.id %>/new'><%= division.name %></a></h2>
-  <% end %>
-<% end %>
-<form action="/divisions/new" method="post">
-  <input type="text" name="name" placeholder="Add a division">
-  <button type="submit" name="division">Add</button>
-</form>
+          <form class="" action='/project/<%=project.id%>/delete' method="post">
+            <h3><%=project.name%>
+            <input name="_method" type="hidden" value="delete"><button type="submit" name="delete" class="btn btn-danger btn-xs">delete</button></h3>
+          </form>
+
+        <h5>Due Date: <%=project.due_date%></h5>
+        <h5>Employees assigned:</h5>
+        <ul>
+          <% project.employees.each do |employee| %>
+          <li><a href="/employee/<%=employee.id%>"><%= employee.name%></a></li>
+          <%end%>
+        </ul>
+      <%end%>
+    <form action="/projects/new" method="post">
+      <input type="text" name="name" placeholder="Add a project">
+      <button type="submit" name="project">Add</button>
+    </form>
+  </div>
+</div>

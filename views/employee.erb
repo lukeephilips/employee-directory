@@ -7,6 +7,8 @@
   <input id="name" name="name" type="text" placeholder="enter name here">
 
   <% if @projects %>
+  <br>
+  <label for="project">Assign a project:</label>
     <select class="form-control" name="projects">
       <% @projects.each do |project| %>
         <option value="<%=project.id%>"> <%=project.name%> </option>

@@ -8,8 +8,6 @@ require('employee')
 require('division')
 require('project')
 
-
-
 RSpec.configure do |config|
   config.after(:each) do
     Employee.all().each() do |employee|
