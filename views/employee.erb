@@ -10,6 +10,7 @@
   <br>
   <label for="project">Assign a project:</label>
     <select class="form-control" name="projects">
+      <option value= ''>Assign a project</option>
       <% @projects.each do |project| %>
         <option value="<%=project.id%>"> <%=project.name%> </option>
       <% end %>

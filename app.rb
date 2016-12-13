@@ -60,7 +60,9 @@ patch('/employee/:id/edit') do
     employee.update(:name => name)
   end
   project_id = params.fetch("projects")
-  employee.update(:project_id => project_id)
+  if project_id != ''
+    employee.update(:project_id => project_id)
+  end
   @division = Division.find(params.fetch('division_id'))
   erb(:division)
 end
